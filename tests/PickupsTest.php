@@ -3,6 +3,7 @@
 namespace Easyship\Tests;
 
 use Easyship\EasyshipAPI;
+use Easyship\Exceptions\UnsupportedApiVersionException;
 
 class PickupsTest extends TestCase
 {
@@ -21,6 +22,16 @@ class PickupsTest extends TestCase
         $api->pickups()->get($courierId);
     }
 
+    public function test_gets_pickup_slots_v2()
+    {
+        $courierId = $this->faker->uuid;
+        $mock = $this->createMock(\GuzzleHttp\Client::class);
+        $api = new EasyshipAPI($this->faker->word, [], 2);
+        $api->setClient($mock);
+        $this->expectException(UnsupportedApiVersionException::class);
+        $api->pickups()->get($courierId);
+    }
+
     public function test_requests_pickup()
     {
         $payload = ['test' => $this->faker->word];
@@ -33,6 +44,16 @@ class PickupsTest extends TestCase
         $api->pickups()->request($payload);
     }
 
+    public function test_requests_pickup_v2()
+    {
+        $payload = ['test' => $this->faker->word];
+        $mock = $this->createMock(\GuzzleHttp\Client::class);
+        $api = new EasyshipAPI($this->faker->word, [], 2);
+        $api->setClient($mock);
+        $this->expectException(UnsupportedApiVersionException::class);
+        $api->pickups()->request($payload);
+    }
+
     public function test_hands_over_shipment()
     {
         $payload = ['test' => $this->faker->word];
@@ -42,6 +63,16 @@ class PickupsTest extends TestCase
             ->with('post', 'https://api.easyship.com/pickup/v1/direct_hand_over');
         $api = new EasyshipAPI($this->faker->word);
         $api->setClient($mock);
+        $api->pickups()->handOver($payload);
+    }
+
+    public function test_hands_over_shipment_v2()
+    {
+        $payload = ['test' => $this->faker->word];
+        $mock = $this->createMock(\GuzzleHttp\Client::class);
+        $api = new EasyshipAPI($this->faker->word, [], 2);
+        $api->setClient($mock);
+        $this->expectException(UnsupportedApiVersionException::class);
         $api->pickups()->handOver($payload);
     }
 }

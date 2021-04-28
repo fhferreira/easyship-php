@@ -2,6 +2,7 @@
 
 namespace Easyship\Modules;
 
+use Easyship\Exceptions\UnsupportedApiVersionException;
 use Easyship\Module;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,7 +19,11 @@ class Tracking extends Module
      */
     public function status(array $payload): ResponseInterface
     {
-        $endpoint = '/track/v1/status';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/track/v1/status';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('get', $endpoint, $payload);
     }
@@ -34,7 +39,11 @@ class Tracking extends Module
      */
     public function checkpoints(array $payload): ResponseInterface
     {
-        $endpoint = '/track/v1/checkpoints';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/track/v1/checkpoints';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('get', $endpoint, $payload);
     }

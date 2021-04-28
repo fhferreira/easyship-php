@@ -15,6 +15,11 @@ use Psr\Http\Message\ResponseInterface;
 class EasyshipAPI
 {
     /**
+     * @var int
+     */
+    protected $apiVersion;
+
+    /**
      * @var string
      */
     protected $apiToken;
@@ -40,10 +45,14 @@ class EasyshipAPI
      * @param string $apiToken
      * @param array $options An array of request options to be merged in
      */
-    public function __construct(string $apiToken, array $options = [])
-    {
+    public function __construct(
+        string $apiToken,
+        array $options = [],
+        int $apiVersion = 1
+    ) {
         $this->apiToken = $apiToken;
         $this->options = $options;
+        $this->apiVersion = $apiVersion;
     }
 
     /**
@@ -116,6 +125,27 @@ class EasyshipAPI
     public function setApiHost(string $apiHost): void
     {
         $this->apiHost = $apiHost;
+    }
+
+    /**
+     * Set the API version for calls
+     *
+     * @param int $apiVersion
+     * @return void
+     */
+    public function setApiVersion(int $apiVersion): void
+    {
+        $this->apiVersion = $apiVersion;
+    }
+
+    /**
+     * Get the currently selected API version
+     *
+     * @return int
+     */
+    public function getApiVersion(): int
+    {
+        return $this->apiVersion;
     }
 
     /**

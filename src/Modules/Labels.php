@@ -2,6 +2,7 @@
 
 namespace Easyship\Modules;
 
+use Easyship\Exceptions\UnsupportedApiVersionException;
 use Easyship\Module;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,7 +19,11 @@ class Labels extends Module
      */
     public function buy(array $payload): ResponseInterface
     {
-        $endpoint = '/label/v1/labels';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/label/v1/labels';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('post', $endpoint, $payload);
     }

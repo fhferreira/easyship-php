@@ -2,6 +2,7 @@
 
 namespace Easyship\Modules;
 
+use Easyship\Exceptions\UnsupportedApiVersionException;
 use Easyship\Module;
 use Psr\Http\Message\ResponseInterface;
 
@@ -10,7 +11,7 @@ class Shipments extends Module
     /**
      * Retrieve a shipment's details
      *
-     * @link https://developers.easyship.com/v1.0/reference#get-a-shipment
+     * @link https://developers.easyship.com/reference#get-a-shipment
      *
      * @param string $id
      *
@@ -18,7 +19,13 @@ class Shipments extends Module
      */
     public function get(string $shipmentId): ResponseInterface
     {
-        $endpoint = '/shipment/v1/shipments/' . $shipmentId;
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/shipment/v1/shipments/' . $shipmentId;
+        } elseif ($this->easyship->getApiVersion() == 2) {
+            $endpoint = '/v2/shipments/' . $shipmentId;
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('get', $endpoint);
     }
@@ -26,13 +33,19 @@ class Shipments extends Module
     /**
      * Retrieve a list of shipments
      *
-     * @link https://developers.easyship.com/v1.0/reference#get-shipments
+     * @link https://developers.easyship.com/reference#get-shipments
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function list(): ResponseInterface
     {
-        $endpoint = '/shipment/v1/shipments';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/shipment/v1/shipments';
+        } elseif ($this->easyship->getApiVersion() == 2) {
+            $endpoint = '/v2/shipments';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('get', $endpoint);
     }
@@ -40,7 +53,7 @@ class Shipments extends Module
     /**
      * Create a shipment
      *
-     * @link https://developers.easyship.com/v1.0/reference#create-a-shipment
+     * @link https://developers.easyship.com/reference#create-a-shipment
      *
      * @param array $payload
      *
@@ -48,7 +61,13 @@ class Shipments extends Module
      */
     public function create(array $payload): ResponseInterface
     {
-        $endpoint = '/shipment/v1/shipments';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/shipment/v1/shipments';
+        } elseif ($this->easyship->getApiVersion() == 2) {
+            $endpoint = '/v2/shipments';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('post', $endpoint, $payload);
     }
@@ -64,7 +83,11 @@ class Shipments extends Module
      */
     public function createAndBuyLabel(array $payload): ResponseInterface
     {
-        $endpoint = '/shipment/v1/shipments/create_and_buy_label';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/shipment/v1/shipments/create_and_buy_label';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('post', $endpoint, $payload);
     }
@@ -81,7 +104,11 @@ class Shipments extends Module
      */
     public function update(string $shipmentId, array $payload): ResponseInterface
     {
-        $endpoint = '/shipment/v1/shipments/' . $shipmentId;
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/shipment/v1/shipments/' . $shipmentId;
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('patch', $endpoint, $payload);
     }
@@ -97,7 +124,11 @@ class Shipments extends Module
      */
     public function delete(string $shipmentId): ResponseInterface
     {
-        $endpoint = '/shipment/v1/shipments/' . $shipmentId;
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/shipment/v1/shipments/' . $shipmentId;
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('delete', $endpoint);
     }
@@ -105,7 +136,7 @@ class Shipments extends Module
     /**
      * Update the warehouse state of one or more shipments
      *
-     * @link https://developers.easyship.com/v1.0/reference#update-shipment-warehouse-status
+     * @link https://developers.easyship.com/reference#update-warehouse-state
      *
      * @param array $payload
      *
@@ -113,7 +144,13 @@ class Shipments extends Module
      */
     public function updateWarehouseState(array $payload): ResponseInterface
     {
-        $endpoint = '/shipment/v1/shipments/update_warehouse_state';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/shipment/v1/shipments/update_warehouse_state';
+        } elseif ($this->easyship->getApiVersion() == 2) {
+            $endpoint = '/v2/shipments/warehouse_state';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('patch', $endpoint, $payload);
     }

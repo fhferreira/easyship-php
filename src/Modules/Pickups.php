@@ -2,6 +2,7 @@
 
 namespace Easyship\Modules;
 
+use Easyship\Exceptions\UnsupportedApiVersionException;
 use Easyship\Module;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,7 +19,11 @@ class Pickups extends Module
      */
     public function get(string $courierId): ResponseInterface
     {
-        $endpoint = '/pickup/v1/pickup_slots/' . $courierId;
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/pickup/v1/pickup_slots/' . $courierId;
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('get', $endpoint);
     }
@@ -34,7 +39,11 @@ class Pickups extends Module
      */
     public function request(array $payload): ResponseInterface
     {
-        $endpoint = '/pickup/v1/pickups';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/pickup/v1/pickups';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('post', $endpoint, $payload);
     }
@@ -50,7 +59,11 @@ class Pickups extends Module
      */
     public function handOver(array $payload): ResponseInterface
     {
-        $endpoint = '/pickup/v1/direct_hand_over';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/pickup/v1/direct_hand_over';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('post', $endpoint, $payload);
     }

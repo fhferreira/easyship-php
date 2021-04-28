@@ -2,6 +2,7 @@
 
 namespace Easyship\Modules;
 
+use Easyship\Exceptions\UnsupportedApiVersionException;
 use Easyship\Module;
 use Psr\Http\Message\ResponseInterface;
 
@@ -10,7 +11,7 @@ class Rates extends Module
     /**
      * Request rates and taxes for a theoretical shipment.
      *
-     * @link https://developers.easyship.com/v1.0/reference#request-rates-and-taxes
+     * @link https://developers.easyship.com/reference#request-rates-and-taxes
      *
      * @param array $payload
      *
@@ -18,7 +19,13 @@ class Rates extends Module
      */
     public function get(array $payload): ResponseInterface
     {
-        $endpoint = '/rate/v1/rates';
+        if ($this->easyship->getApiVersion() == 1) {
+            $endpoint = '/rate/v1/rates';
+        } elseif ($this->easyship->getApiVersion() == 2) {
+            $endpoint = '/v2/rates';
+        } else {
+            throw new UnsupportedApiVersionException();
+        }
 
         return $this->easyship->request('post', $endpoint, $payload);
     }

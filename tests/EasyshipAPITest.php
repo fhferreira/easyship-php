@@ -146,6 +146,19 @@ class EasyshipAPITest extends TestCase
         $api->request('get', 'test', $payload);
     }
 
+    public function test_constructor_sets_api_version()
+    {
+        $api = new EasyshipAPI($this->faker->word, [], 2);
+        $this->assertEquals(2, $api->getApiVersion());
+    }
+
+    public function test_sets_api_version()
+    {
+        $api = new EasyshipAPI($this->faker->word, [], 1);
+        $api->setApiVersion(2);
+        $this->assertEquals(2, $api->getApiVersion());
+    }
+
     public function test_gets_categories_module()
     {
         $api = new EasyshipAPI($this->faker->word);

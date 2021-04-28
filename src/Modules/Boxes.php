@@ -6,19 +6,19 @@ use Easyship\Exceptions\UnsupportedApiVersionException;
 use Easyship\Module;
 use Psr\Http\Message\ResponseInterface;
 
-class Categories extends Module
+class Boxes extends Module
 {
     /**
-     * Get a list of item categories
+     * Retrieve a list of all boxes
      *
-     * @link https://developers.easyship.com/v1.0/reference#item-categories
+     * @link https://developers.easyship.com/reference#boxes
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function list(): ResponseInterface
     {
-        if ($this->easyship->getApiVersion() == 1) {
-            $endpoint = '/reference/v1/categories';
+        if ($this->easyship->getApiVersion() == 2) {
+            $endpoint = '/v2/boxes';
         } else {
             throw new UnsupportedApiVersionException();
         }
