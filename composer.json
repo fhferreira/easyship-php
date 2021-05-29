@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": ">=7.2",
-        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/guzzle": "^6.3",
         "adhocore/jwt": "^1.1"
     },
     "require-dev": {
