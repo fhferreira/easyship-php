@@ -1,5 +1,5 @@
 {
-    "name": "jrebs/easyship-php",
+    "name": "fhferreira/easyship-php",
     "description": "A PHP library to simplify integration with the Easyship API",
     "keywords": ["easyship", "api", "php"],
     "type": "library",
