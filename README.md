@@ -38,7 +38,7 @@ Unless using [Laravel](https://laravel.com), install with
 [composer](https://getcomposer.org) like normal:
 
 ```sh
-composer require jrebs/easyship-php
+composer require fhferreira/easyship-php
 ```
 
 If using the library in a [Laravel](https://laravel.com) application, then
@@ -48,9 +48,10 @@ also require this package as a dependency).
 
 In this case, instead run:
 ```sh
-composer require jrebs/easyship-laravel
+composer require fhferreira/easyship-laravel
 ```
-See the [easyship-laravel](https://github.com/jrebs/easyship-laravel) page
+See the [easyship-laravel](https://github.com/
+
 for documentation specific to this method.
 
 # Usage
@@ -160,3 +161,5 @@ getting back.
 
 This software was written by me, [Justin Rebelo](https://github.com/jrebs),
 and is released under the [MIT license](LICENSE.md).
+
+#FORK just to reduce Guzzle to ^6.3
